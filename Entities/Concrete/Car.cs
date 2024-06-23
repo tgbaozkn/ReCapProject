@@ -1,4 +1,5 @@
-﻿using Entities.Abstract;
+﻿using Core.Entities;
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,6 +12,7 @@ namespace Entities.Concrete
     {
         public int Id { get; set; }
         public int BrandId { get; set; }
+        public string Name { get; set; }
         public int ColorId { get; set; }
         public string ModelYear {  get; set; }  
         public string DailyPrice { get; set; }    

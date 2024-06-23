@@ -1,5 +1,7 @@
-﻿using DataAccess.Abstract;
+﻿using Core.DataAccess.EntityFramework;
+using DataAccess.Abstract;
 using Entities.Concrete;
+using Entities.DTOs;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -10,54 +12,28 @@ using System.Threading.Tasks;
 
 namespace DataAccess.Concrete.EntityFramework
 {
-    public class EfCarDal : ICarDal
+    public class EfCarDal : EfEntityRepositoryBase<Car, RecaprojectContext>, ICarDal
     {
-        public void Add(Car entity)
+        public List<CarDetailDto> GetCarDetails()
         {
-            using (RecaprojectContext context = new RecaprojectContext())
-            {
-                var addedEntity = context.Add(entity);
-                addedEntity.State = EntityState.Added;
-                context.SaveChanges();
-            }
-        }
+            using (RecaprojectContext context = new RecaprojectContext()) {
+                var carResult = from car in context.Cars
+                                join brand in context.Brands on car.BrandId equals brand.Id
+                                join color in context.Colors on car.ColorId equals color.Id
+                                select new CarDetailDto
+                                {
+                                    Id = car.Id,
+                                    Name = car.Name,
+                                    BrandName = brand.BrandName,
+                                    ColorName = color.ColorName,
+                                    DailyPrice = car.DailyPrice,
+                                    Description = car.Description,
+                                    ModelYear = car.ModelYear
+                                };
+                return carResult.ToList();  
 
-        public void Delete(Car entity)
-        {
-            using (RecaprojectContext ctx = new RecaprojectContext())
-            {
-                var removedEntity = ctx.Remove(entity);
-                removedEntity.State = EntityState.Deleted;
-                ctx.SaveChanges();
-            }
-        }
 
-        public Car Get(Expression<Func<Car, bool>> filter = null)
-        {
-            using (RecaprojectContext ctx = new RecaprojectContext())
-            {
-                return ctx.Set<Car>().SingleOrDefault(filter);
-            }
-        }
 
-        public List<Car> GetAll(Expression<Func<Car, bool>> filter = null)
-        {
-            using (RecaprojectContext context = new RecaprojectContext())
-            {
-                return filter == null
-                    ? context.Set<Car>().ToList()
-                    : context.Set<Car>().Where(filter).ToList();
-            }
-        }
-
-  
-        public void Update(Car entity)
-        {
-            using (RecaprojectContext context = new RecaprojectContext())
-            {
-                var updatedEntity = context.Update(entity);
-                updatedEntity.State = EntityState.Modified;
-                context.SaveChanges();
             }
         }
     }
