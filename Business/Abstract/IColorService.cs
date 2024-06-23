@@ -11,5 +11,8 @@ namespace Business.Abstract
     {
         List<Color> GetAll();
         Color GetColor(int id);
+        void Add(Color color);
+        void Remove(Color color);
+        void Update(Color color);
     }
 }

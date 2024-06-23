@@ -9,11 +9,18 @@ class Program
     static void Main(string[] args)
     {
         CarManager carManager = new CarManager(new EfCarDal());
-        carManager.Add(new Car {Id=2,BrandId=1,ColorId=1,DailyPrice="20",Description="Car ,Red", ModelYear="2023"});
-        foreach(var result in carManager.GetCars())
-        {
-            Console.WriteLine(result.Description);
-        }
+        BrandManager brandManager = new BrandManager(new  EfBrandDal());
+        ColorManager colorManager = new ColorManager(new EfColorDal());
+       
+        
+        //foreach (var result in carManager.GetCarDetails())
+        //{
+        //    Console.WriteLine(result.BrandName);
+        //    Console.WriteLine(result.ColorName);
+        //    Console.WriteLine(result.Name);
+        //}
+        var carone = carManager.Get(1);
+        carManager.Delete(carone);
         Console.WriteLine("Hello, World!");
     }
 }
