@@ -4,19 +4,17 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace WebAPI.Controllers
 {
-    [Route("api/[controller]")]
-    [ApiController]
-    public class BrandController : ControllerBase
+    public class CarController : ControllerBase
     {
-        IBrandService _brandService;
-        public BrandController(IBrandService brandService)
+        ICarService _carService;
+        public CarController(ICarService carService)
         {
-            _brandService = brandService;  
+            _carService = carService;
         }
-        [HttpGet("getallbrand")]
+        [HttpGet("getallcar")]
         public IActionResult GetAll()
         {
-            var result = _brandService.GetAll();
+            var result = _carService.GetCars();
             if (result.Succeeded)
             {
                 return Ok(result.Data);
@@ -24,10 +22,21 @@ namespace WebAPI.Controllers
             return BadRequest();
         }
 
-        [HttpGet("getbyidbrand")]
-        public IActionResult GetById(int brandId)
+        [HttpGet("getbyidcar")]
+        public IActionResult GetById(int carId)
         {
-            var result = _brandService.GetById(brandId);
+            var result = _carService.Get(carId);
+            if (result.Succeeded)
+            {
+                return Ok(result.Data);
+            }
+            return BadRequest();
+        }
+
+        [HttpPost("addcar")]
+        public IActionResult Add(Car car)
+        {
+            var result = _carService.Add(car);
             if (result.Succeeded)
             {
                 return Ok(result.Message);
@@ -35,31 +44,20 @@ namespace WebAPI.Controllers
             return BadRequest();
         }
 
-        [HttpPost("addbrand")]
-        public IActionResult Add(Brand brand)
+        [HttpPost("deletecar")]
+        public IActionResult Delete(Car car)
         {
-            var result = _brandService.Add(brand);
+            var result = _carService.Delete(car);
             if (result.Succeeded)
             {
                 return Ok(result.Message);
             }
             return BadRequest();
         }
-
-        [HttpPost("deletebrand")]
-        public IActionResult Delete(Brand brand)
+        [HttpPost("updatecar")]
+        public IActionResult Update(Car car)
         {
-            var result = _brandService.Delete(brand);
-            if (result.Succeeded)
-            {
-                return Ok(result.Message);
-            }
-            return BadRequest();
-        }
-        [HttpPost("updatebrand")]
-        public IActionResult Update(Brand brand)
-        {
-            var result = _brandService.Update(brand);
+            var result = _carService.Update(car);
             if (result.Succeeded)
             {
                 return Ok(result.Message);

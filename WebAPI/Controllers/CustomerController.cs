@@ -4,19 +4,17 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace WebAPI.Controllers
 {
-    [Route("api/[controller]")]
-    [ApiController]
-    public class BrandController : ControllerBase
+    public class CustomerController : ControllerBase
     {
-        IBrandService _brandService;
-        public BrandController(IBrandService brandService)
+        ICustomerService _customerService;
+        public CustomerController(ICustomerService customerService)
         {
-            _brandService = brandService;  
+            _customerService = customerService;
         }
-        [HttpGet("getallbrand")]
+        [HttpGet("getallcustomer")]
         public IActionResult GetAll()
         {
-            var result = _brandService.GetAll();
+            var result = _customerService.GetAll();
             if (result.Succeeded)
             {
                 return Ok(result.Data);
@@ -24,10 +22,10 @@ namespace WebAPI.Controllers
             return BadRequest();
         }
 
-        [HttpGet("getbyidbrand")]
-        public IActionResult GetById(int brandId)
+        [HttpGet("getbyidcustomer")]
+        public IActionResult GetById(int customerId)
         {
-            var result = _brandService.GetById(brandId);
+            var result = _customerService.GetById(customerId);
             if (result.Succeeded)
             {
                 return Ok(result.Message);
@@ -35,10 +33,10 @@ namespace WebAPI.Controllers
             return BadRequest();
         }
 
-        [HttpPost("addbrand")]
-        public IActionResult Add(Brand brand)
+        [HttpPost("addcustomer")]
+        public IActionResult Add(Customer customer)
         {
-            var result = _brandService.Add(brand);
+            var result = _customerService.Add(customer);
             if (result.Succeeded)
             {
                 return Ok(result.Message);
@@ -46,20 +44,20 @@ namespace WebAPI.Controllers
             return BadRequest();
         }
 
-        [HttpPost("deletebrand")]
-        public IActionResult Delete(Brand brand)
+        [HttpPost("deletecustomer")]
+        public IActionResult Delete(Customer customer)
         {
-            var result = _brandService.Delete(brand);
+            var result = _customerService.Delete(customer);
             if (result.Succeeded)
             {
                 return Ok(result.Message);
             }
             return BadRequest();
         }
-        [HttpPost("updatebrand")]
-        public IActionResult Update(Brand brand)
+        [HttpPost("updatecustomer")]
+        public IActionResult Update(Customer customer)
         {
-            var result = _brandService.Update(brand);
+            var result = _customerService.Update(customer);
             if (result.Succeeded)
             {
                 return Ok(result.Message);

@@ -4,19 +4,17 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace WebAPI.Controllers
 {
-    [Route("api/[controller]")]
-    [ApiController]
-    public class BrandController : ControllerBase
+    public class ColorController : ControllerBase
     {
-        IBrandService _brandService;
-        public BrandController(IBrandService brandService)
+        IColorService _colorService;
+        public ColorController(IColorService colorService)
         {
-            _brandService = brandService;  
+            _colorService = colorService;
         }
-        [HttpGet("getallbrand")]
+        [HttpGet("getallcolor")]
         public IActionResult GetAll()
         {
-            var result = _brandService.GetAll();
+            var result = _colorService.GetAll();
             if (result.Succeeded)
             {
                 return Ok(result.Data);
@@ -24,10 +22,10 @@ namespace WebAPI.Controllers
             return BadRequest();
         }
 
-        [HttpGet("getbyidbrand")]
-        public IActionResult GetById(int brandId)
+        [HttpGet("getbyidcolor")]
+        public IActionResult GetById(int colorId)
         {
-            var result = _brandService.GetById(brandId);
+            var result = _colorService.GetColor(colorId);
             if (result.Succeeded)
             {
                 return Ok(result.Message);
@@ -35,10 +33,10 @@ namespace WebAPI.Controllers
             return BadRequest();
         }
 
-        [HttpPost("addbrand")]
-        public IActionResult Add(Brand brand)
+        [HttpPost("addcolor")]
+        public IActionResult Add(Color color)
         {
-            var result = _brandService.Add(brand);
+            var result = _colorService.Add(color);
             if (result.Succeeded)
             {
                 return Ok(result.Message);
@@ -46,20 +44,20 @@ namespace WebAPI.Controllers
             return BadRequest();
         }
 
-        [HttpPost("deletebrand")]
-        public IActionResult Delete(Brand brand)
+        [HttpPost("deletecolor")]
+        public IActionResult Delete(Color color)
         {
-            var result = _brandService.Delete(brand);
+            var result = _colorService.Remove(color);
             if (result.Succeeded)
             {
                 return Ok(result.Message);
             }
             return BadRequest();
         }
-        [HttpPost("updatebrand")]
-        public IActionResult Update(Brand brand)
+        [HttpPost("updatecolor")]
+        public IActionResult Update(Color color)
         {
-            var result = _brandService.Update(brand);
+            var result = _colorService.Update(color);
             if (result.Succeeded)
             {
                 return Ok(result.Message);
