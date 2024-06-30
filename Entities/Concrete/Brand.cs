@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Entities.Concrete
 {
-    public class Brand:IEntity
+    public class Brand:IEntity //entity'e business code u yazılmaz solidin s kuralına aykırıdır
     {
         public int Id { get; set; }
         public string BrandName { get; set; }

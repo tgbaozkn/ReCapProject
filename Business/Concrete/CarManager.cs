@@ -1,5 +1,8 @@
 ﻿using Business.Abstract;
 using Business.Constants;
+using Business.ValidationRules.FluentValidation;
+using Core.Aspects.Autofac.Validation;
+using Core.CrossCuttingConcerns.Validation;
 using Core.Utilities.Results;
 using Core.Utilities.Results.Abstract;
 using Core.Utilities.Results.Concrete;
@@ -7,6 +10,7 @@ using DataAccess.Abstract;
 using DataAccess.Concrete.InMemory;
 using Entities.Concrete;
 using Entities.DTOs;
+using FluentValidation;
 using ServiceReference1;
 using System;
 using System.Collections.Generic;
@@ -23,6 +27,7 @@ namespace Business.Concrete
         public CarManager(ICarDal carDal)
         {
             _carDal = carDal;  
+           
             
         }
         public IDataResult<List<Car>> GetCars()
@@ -37,21 +42,18 @@ namespace Business.Concrete
             var result = await soapClient.TCKimlikNoDogrulaAsync(1111111, "aaa", "sds", 1995);
             return result.Body.TCKimlikNoDogrulaResult;
         }
+        [ValidationAspect(typeof(CarValidator))] //carvalidator tipini bul sonra ona göre doğrulama barajlarından geçir
         public IResult Add(Car car)
         {
-            if (car.Description.Length > 2 && Int32.Parse(car.DailyPrice) > 0)
-            {
-                
-                TcSorgula().GetAwaiter().GetResult();
+          
+              
                 _carDal.Add(car);
                 return new SuccessResult(Messages.CarAdded);
+            
+            TcSorgula().GetAwaiter().GetResult();
+           
 
-            }
-            else
-            {
-                return new ErrorResult(Messages.CarNotAdded);
-               
-            }
+           
            
         }
 

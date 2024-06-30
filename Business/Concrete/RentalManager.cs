@@ -6,6 +6,7 @@ using DataAccess.Abstract;
 using Entities.Concrete;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -19,6 +20,7 @@ namespace Business.Concrete
         {
             _rentalDal = rentalDal;
         }
+       
         public IResult Add(Rental rental)
         {
             if (rental.ReturnDate == null)

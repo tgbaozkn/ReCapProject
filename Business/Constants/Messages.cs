@@ -11,5 +11,6 @@ namespace Business.Constants
         public static string CarAdded = "Ürün eklendi";
         public static string CarNotAdded = "Araba ismi minimum 2 karakter olmalı ve günlük fiyat 0 dan büyük olmalı";
         public static string IsRentalReturnDateNull = "Arabayı teslim etmeden kiralayamazsın";
+        public static string ModelYearMustStartTwo = "Arabanın yılı 2000ler olmalıdır öncesi kabul edilmiyor.";
     }
 }
