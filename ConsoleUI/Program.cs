@@ -31,7 +31,7 @@ class Program
         }
 
     }
-
+    #region TestKisim
     private static void CarTest(CarManager carManager)
     {
         var result = carManager.Add(new Car { Id = 3, BrandId = 1, ColorId = 1, DailyPrice = "20", Name = "araba", Description = "chery", ModelYear = "2024" });
@@ -48,4 +48,5 @@ class Program
         }
         Console.WriteLine(result.Message);
     }
+    #endregion
 }

@@ -7,6 +7,7 @@ using DataAccess.Abstract;
 using DataAccess.Concrete.InMemory;
 using Entities.Concrete;
 using Entities.DTOs;
+using ServiceReference1;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,19 +18,31 @@ namespace Business.Concrete
 {
     public class CarManager : ICarService
     {
-        ICarDal _carDal;
+        ICarDal _carDal; //icardala bağlı ama hangi icardal ef mi inmemeory mi vs bu yüzden autofac
+        KPSPublicSoapClient soapClient;
         public CarManager(ICarDal carDal)
         {
             _carDal = carDal;  
+            
         }
         public IDataResult<List<Car>> GetCars()
         {
             return new SuccessDataResult<List<Car>>(_carDal.GetAll());
         }
+
+            public async Task<bool> TcSorgula()
+        {
+            soapClient = new KPSPublicSoapClient(KPSPublicSoapClient.EndpointConfiguration.KPSPublicSoap);
+
+            var result = await soapClient.TCKimlikNoDogrulaAsync(1111111, "aaa", "sds", 1995);
+            return result.Body.TCKimlikNoDogrulaResult;
+        }
         public IResult Add(Car car)
         {
             if (car.Description.Length > 2 && Int32.Parse(car.DailyPrice) > 0)
             {
+                
+                TcSorgula().GetAwaiter().GetResult();
                 _carDal.Add(car);
                 return new SuccessResult(Messages.CarAdded);
 
